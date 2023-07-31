@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "260836878970",
+    "project_id": "signlanguage-3ac99",
+    "storage_bucket": "signlanguage-3ac99.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:260836878970:android:81d9919b8f5ed7a2dba9c3",
+        "android_client_info": {
+          "package_name": "com.example.sign_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "260836878970-sg7s1l67u9biu8sgrpijmso7krg3iocc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXXPfFlX1vStQrdGVIvqptXeHSwQpEMAg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "260836878970-sg7s1l67u9biu8sgrpijmso7krg3iocc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
