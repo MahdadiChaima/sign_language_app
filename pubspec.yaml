@@ -32,11 +32,14 @@ dependencies:
     sdk: flutter
 
   image_picker: ^0.8.4+2
-  tflite_flutter: any # Flutter plugin for using TFLite models
+ # tflite_flutter: ^0.10.1 # Flutter plugin for using TFLite models
   image: ^3.0.1
   path_provider: ^2.0.8
   path: ^1.8.0
   camera: ^0.10.0
+  tflite_flutter: ^0.10.1
+  #tflite_flutter_helper_plus: ^0.0.2
+
 
   #tflite_flutter_helper: any
 

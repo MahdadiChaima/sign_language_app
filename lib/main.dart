@@ -1,11 +1,8 @@
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' show rootBundle;
-import 'package:image/image.dart' as img;
 import 'package:image_picker/image_picker.dart';
-import 'package:tflite_flutter/tflite_flutter.dart';
+import 'package:tflite/tflite.dart';
 
 void main() => runApp(MyApp());
 
@@ -14,89 +11,63 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Sign Language App',
-      home: MyHomePage(),
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: TfliteModel(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
+class TfliteModel extends StatefulWidget {
+  const TfliteModel({Key? key}) : super(key: key);
+
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _TfliteModelState createState() => _TfliteModelState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  Interpreter? interpreter;
-  ImagePicker picker = ImagePicker();
-  String prediction = '';
-  List<String> labels = [];
+class _TfliteModelState extends State<TfliteModel> {
+  late File _image;
+  late List _results;
+  bool _imageSelect = false;
 
   @override
   void initState() {
     super.initState();
     loadModel();
-    loadLabels();
   }
 
-  // Load the TFLite model
-  Future<void> loadModel() async {
-    try {
-      String modelPath = 'assets/sign_language_model.tflite';
-      interpreter = await Interpreter.fromAsset(modelPath);
-      print('Model loaded successfully');
-    } catch (e) {
-      print('Error loading model: $e');
-    }
+  Future loadModel() async {
+    String? res = await Tflite.loadModel(
+      model: 'assets/sign_language_model.tflite',
+      labels: 'assets/labels.txt',
+    );
+    print('Model loading status: $res');
   }
 
-  // Load the labels from the labels.txt file in the assets
-  Future<void> loadLabels() async {
-    try {
-      String labelsText = await rootBundle.loadString('assets/labels.txt');
-      labels = labelsText.trim().split('\n');
-      print('Labels loaded successfully');
-    } catch (e) {
-      print('Error loading labels: $e');
-    }
+  Future imageClassification(File image) async {
+    final List? recognitions = await Tflite.runModelOnImage(
+      path: image.path,
+      numResults: 6,
+      threshold: 0.05,
+      imageMean: 127.5,
+      imageStd: 127.5,
+    );
+    setState(() {
+      _results = recognitions!;
+      _image = image;
+      _imageSelect = true;
+    });
   }
 
-  // Run inference on the image
-  Future<void> runInference(File imageFile) async {
-    if (interpreter == null) {
-      print('Model is not loaded yet.');
-      return;
-    }
-
-    try {
-      var imageBytes = await imageFile.readAsBytes();
-      img.Image image = img.decodeImage(imageBytes)!;
-
-      // Resize the image to 64x64
-      image = img.copyResize(image, width: 64, height: 64);
-
-      var input = imageToByteListFloat32(
-          image, 64, 255.0); // Convert image to model input format
-
-      // Perform inference
-      var output = Float32List(
-          interpreter!.getOutputTensor(0).shape.reduce((a, b) => a * b));
-      interpreter!.run(input, output);
-
-      // Process the output and get the prediction
-      int maxIndex = output.indexOf(output.reduce((a, b) => a > b ? a : b));
-      String result = labels[maxIndex];
-      setState(() {
-        prediction = result;
-      });
-    } catch (e) {
-      print('Error running inference: $e');
-    }
-  }
-
-  // Image picker function
-  Future<void> getImageAndRunInference() async {
-    XFile? pickedImage = await picker.pickImage(source: ImageSource.gallery);
-    if (pickedImage != null) {
-      runInference(File(pickedImage.path));
+  Future pickImage() async {
+    final ImagePicker _picker = ImagePicker();
+    final XFile? pickedFile = await _picker.pickImage(
+      source: ImageSource.gallery,
+    );
+    if (pickedFile != null) {
+      File image = File(pickedFile.path);
+      imageClassification(image);
     }
   }
 
@@ -106,41 +77,41 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text('Sign Language App'),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(
-              onPressed: getImageAndRunInference,
-              child: Text('Select Image'),
+      body: Column(
+        children: [
+          GestureDetector(
+            onTap: () => pickImage(),
+            child: Container(
+              margin: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                border: Border.all(),
+              ),
+              child: _imageSelect
+                  ? Image.file(_image, fit: BoxFit.cover)
+                  : Center(child: Text('No image selected')),
             ),
-            SizedBox(height: 20),
-            Text(
-              prediction.isEmpty
-                  ? 'Select an image to make a prediction'
-                  : 'Prediction: $prediction',
-              style: TextStyle(fontSize: 20),
+          ),
+          SingleChildScrollView(
+            child: Column(
+              children: _imageSelect
+                  ? _results.map((result) {
+                      return Card(
+                        child: ListTile(
+                          title: Text(
+                            '${result['label']} - ${result['confidence'].toStringAsFixed(2)}',
+                            style: TextStyle(
+                              color: Colors.red,
+                              fontSize: 18,
+                            ),
+                          ),
+                        ),
+                      );
+                    }).toList()
+                  : [],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
-}
-
-// Image processing helper function
-Uint8List imageToByteListFloat32(
-    img.Image image, int inputSize, double normalization) {
-  var convertedBytes = Uint8List(1 * inputSize * inputSize);
-  var buffer = Float32List.view(convertedBytes.buffer);
-  var pixelIndex = 0;
-  for (var i = 0; i < inputSize; i++) {
-    for (var j = 0; j < inputSize; j++) {
-      var pixel = image.getPixel(j, i);
-      var grayscaleValue = img.getLuminance(pixel).round();
-      buffer[pixelIndex] = grayscaleValue / normalization;
-      pixelIndex++;
-    }
-  }
-  return convertedBytes;
 }
