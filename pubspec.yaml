@@ -39,6 +39,15 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+  flutter_native_splash: ^2.2.19
+  get: ^4.6.5
+  shared_preferences: ^2.1.0
+  firebase_auth: ^4.4.0
+  firebase_core: ^2.9.0
+  firebase_storage: ^11.1.0
+  cloud_firestore: ^4.5.0
+  video_player: ^2.7.0
+  flutter_tts: ^3.7.0
 
 dev_dependencies:
   flutter_test:
@@ -63,11 +72,50 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  assets:
-    - assets/sign_language_model.tflite
-    - assets/labels.txt
   # assets:
-  #   - images/a_dot_burr.jpeg
+  # - assets/sign_language_model.tflite
+  # - assets/labels.txt
+  assets:
+    - assets/images/alphabet/a.png
+    - assets/images/alphabet/b.png
+    - assets/images/alphabet/c.png
+    - assets/images/alphabet/d.png
+    - assets/images/alphabet/e.png
+    - assets/images/alphabet/f.png
+    - assets/images/alphabet/g.png
+    - assets/images/alphabet/h.png
+    - assets/images/alphabet/i.png
+    - assets/images/alphabet/j.png
+    - assets/images/alphabet/k.png
+    - assets/images/alphabet/l.png
+    - assets/images/alphabet/m.png
+    - assets/images/alphabet/n.png
+    - assets/images/alphabet/o.png
+    - assets/images/alphabet/p.png
+    - assets/images/alphabet/q.png
+    - assets/images/alphabet/r.png
+    - assets/images/alphabet/s.png
+    - assets/images/alphabet/t.png
+    - assets/images/alphabet/u.png
+    - assets/images/alphabet/v.png
+    - assets/images/alphabet/w.png
+    - assets/images/alphabet/x.png
+    - assets/images/alphabet/y.png
+    - assets/images/alphabet/z.png
+    - assets/images/alphabet/0.png
+    - assets/images/alphabet/1.png
+    - assets/images/alphabet/2.png
+    - assets/images/alphabet/3.png
+    - assets/images/alphabet/4.png
+    - assets/images/alphabet/5.png
+    - assets/images/alphabet/6.png
+    - assets/images/alphabet/7.png
+    - assets/images/alphabet/8.png
+    - assets/images/alphabet/9.png
+    - assets/images/alphabet/space.png
+    - assets/images/alphabet/dot.png
+    - assets/images/alphabet/at.png
+    - assets/images/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -81,17 +129,10 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
-  #
+  fonts:
+    - family: GreatVibes
+      fonts:
+        - asset: assets/fonts/GreatVibes-Regular.ttf
+          weight: 400
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

@@ -1,0 +1,59 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../../presenter/controller/onboarding_controller.dart';
+import '../widgets/color.dart';
+import '../widgets/curve_container.dart';
+import '../widgets/my_custom_button.dart';
+class OnboardingScreen extends StatelessWidget {
+  final OnboardingController controller = Get.put(OnboardingController());
+
+  OnboardingScreen({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        padding: const EdgeInsets.symmetric(vertical: 25.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Stack(children: [
+              CurvedContainer(height: 110,), // hada l orange
+              CurvedContainer(height: 100,color: Colors.white,),
+              CurvedContainer(height: 90,color: broiColor), // hada blue
+              CurvedContainer(height: 80,color: Colors.white,),
+              Image.asset('assets/images/logo.png',height: 50,width: 50,),
+            ],),
+            Expanded(
+              child: PageView.builder(
+                controller: controller.pageController,
+                itemCount: controller.onboardingItems.length,
+                itemBuilder: (context, index) {
+                  return OnboardingItemWidget(
+                    onboardingItem: controller.onboardingItems[index],
+                  );
+                },
+                onPageChanged: controller.onPageChanged,
+              ),
+            ),
+            const SizedBox(height: 10.0),
+            Obx(() =>
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: controller.buildPageIndicator(),
+                )),
+            const SizedBox(height: 10.0),
+            Padding(padding: const EdgeInsets.symmetric(horizontal: 30),
+              child:  CustomButton(
+                  text:'Get Started' ,
+                  onPressed:controller.goToNextPage,
+                  sideColor: pinkColor,
+                  onPrimary:Colors.white ,
+                  primary:bcielColor
+              ),),
+          ],
+        ),
+      ),
+    );
+  }
+}
