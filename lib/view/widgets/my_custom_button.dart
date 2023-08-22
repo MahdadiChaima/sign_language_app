@@ -45,7 +45,7 @@ class CustomButton extends StatelessWidget {
               ),
               child: Row(
                 children: [
-               icon != null ? Icon(icon): SizedBox( width: screenWidth * 0.20,),
+               icon != null ? Icon(icon): SizedBox( width: screenWidth * 0.27,),
                 SizedBox(
                   width: screenWidth * 0.07,
                 ),

@@ -13,6 +13,7 @@ class DefaultTextField extends StatelessWidget {
   final IconData? suffix;
   final void Function()? suffixFunction;
   final bool obscuretext;
+
   DefaultTextField({
     Key? key,
     required this.prefixIcon,
@@ -25,8 +26,7 @@ class DefaultTextField extends StatelessWidget {
     this.suffixFunction,
     this.obscuretext = false,
     this.validatorFn,
-    this.hint,
-    this.onChange,
+    this.hint, this.onChange,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {

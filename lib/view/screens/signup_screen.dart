@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sign_app/view/screens/login_screen.dart';
 import 'package:video_player/video_player.dart';
 import '../../presenter/controller/signup_controller.dart';
 import '../widgets/color.dart';
@@ -78,6 +79,7 @@ class SignupScreen extends StatelessWidget {
                       },
                     ),
                   ),
+
                   const SizedBox(height: 80),
                   CustomButton(
                     buttomHight: 40.0,
@@ -90,6 +92,19 @@ class SignupScreen extends StatelessWidget {
                     sideColor: beigeColor,
                   ),
                   const SizedBox(height: 20),
+                  GestureDetector(
+                    onTap: () {
+                      // Handle navigation to the signup screen or other actions
+                      Get.to(() => LoginScreen()); // Example navigation using GetX
+                    },
+                    child: Text(
+                      'Already have an account? Sign up here',
+                      style: TextStyle(
+                        color: Colors.blue,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                  ),
 
                 ],
               ),

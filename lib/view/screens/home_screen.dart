@@ -5,12 +5,9 @@ import '../../presenter/controller/home_controller.dart';
 import '../widgets/my_custom_text.dart';
 import '../widgets/color.dart';
 class HomeScreen extends StatefulWidget {
-
-
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
-
 class _HomeScreenState extends State<HomeScreen> {
   List<String> selectedLetters = [];
   final HomeController homeController = Get.put(HomeController());
@@ -20,16 +17,13 @@ class _HomeScreenState extends State<HomeScreen> {
     'p', 'q', 'r', 's', 't',
     'u', 'v', 'w', 'x', 'y', 'z', ' ', '@', '.', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
   ];
-
   FlutterTts flutterTts = FlutterTts();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: beigeColor,
         title:  MyCustomTextWidget(text:'Sign Language App' ,index: 1 ),
-
         actions: [
           IconButton(
             onPressed: () {
@@ -121,7 +115,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
   void _speakSelectedWord() async {
     String selectedWord = selectedLetters.join('');
     if (selectedWord.isNotEmpty) {
@@ -130,7 +123,6 @@ class _HomeScreenState extends State<HomeScreen> {
       await flutterTts.speak(selectedWord);
     }
   }
-
   void _deleteLastCharacter() {
     if (selectedLetters.isNotEmpty) {
       setState(() {

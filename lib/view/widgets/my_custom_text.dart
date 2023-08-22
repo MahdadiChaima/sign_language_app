@@ -186,7 +186,7 @@ class MyCustomTextWidget extends StatelessWidget {
       case 14://head
         textStyle = TextStyle(
           fontFamily: 'GreatVibes',
-          fontSize:getResponsiveFontSize(context, 11),
+          fontSize:getResponsiveFontSize(context, 20),
           fontWeight: FontWeight.w500,
           color:
           // settingscontroller.isDarkMode.value
