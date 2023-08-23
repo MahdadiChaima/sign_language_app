@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import '../../presenter/controller/splash_controller.dart';
 import '../widgets/my_custom_text.dart';
+
 class SplashScreen extends StatelessWidget {
   final splashController = Get.put(SplashController());
   SplashScreen({super.key});
@@ -14,10 +15,13 @@ class SplashScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset('assets/images/logo.png',width: 200,height: 200,),
+            Image.asset(
+              'assets/images/logo.png',
+              width: 200,
+              height: 200,
+            ),
             const SizedBox(height: 24),
-            MyCustomTextWidget(text: 'SignaLingua' ,index: 1),
-
+            MyCustomTextWidget(text: 'Signlingo', index: 1),
           ],
         ),
       ),

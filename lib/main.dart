@@ -5,16 +5,15 @@ import 'package:sign_app/presenter/cache_helper.dart';
 import 'package:sign_app/view/screens/splash_screen.dart';
 import 'package:sign_app/view/widgets/constant.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await  Firebase.initializeApp();
-  token='';
-  token=await CacheHelper.importData(key: 'token');
-  runApp(   GetMaterialApp(
-    title: 'ELearning',
+  await Firebase.initializeApp();
+  token = '';
+  token = await CacheHelper.importData(key: 'token');
+  runApp(GetMaterialApp(
+    title: 'Signlingo',
     debugShowCheckedModeBanner: false,
-    home:  SplashScreen(),
-
+    home: SplashScreen(),
   ));
 }
 // class MyApp extends StatelessWidget {

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:get/get.dart';
 import 'package:sign_app/view/screens/signup_screen.dart';
+
 import '../../presenter/controller/login_controller.dart';
 import '../widgets/color.dart';
 import '../widgets/my_custom_button.dart';
@@ -9,239 +10,139 @@ import '../widgets/my_custom_text.dart';
 import '../widgets/my_custom_textfield.dart';
 
 class LoginScreen extends StatelessWidget {
+  // ... (other variables and methods above) ...
+
   final LoginController loginController = Get.put(LoginController());
   List<String> selectedLetters = [];
   final FlutterTts flutterTts = FlutterTts();
+  final List<String> alphabetLetters = [
+    'a',
+    'b',
+    'c',
+    'd',
+    'e',
+    'f',
+    'g',
+    'h',
+    'i',
+    'j',
+    'k',
+    'l',
+    'm',
+    'n',
+    'o',
+    'p',
+    'q',
+    'r',
+    's',
+    't',
+    'u',
+    'v',
+    'w',
+    'x',
+    'y',
+    'z',
+    ' ',
+    '@',
+    '.',
+    '0',
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9'
+  ];
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: bcielColor,
-        elevation: 0.0,
-        leading: IconButton(
-          onPressed: () {
-            Get.back();
-          },
-          icon: Icon(Icons.arrow_back),
-        ),
-        title: Padding(
-          padding: EdgeInsets.all(4),
-          child: MyCustomTextWidget(index: 8, text: 'Login'),
-        ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            MyCustomTextWidget(index: 1, text: 'Welcome Back !'),
-            SizedBox(height: screenHeight * 0.05),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      body: SingleChildScrollView(
+        child: Form(
+          child: Padding(
+            padding: const EdgeInsets.all(25),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                Row(
+                  children: [
+                    Image.asset('assets/images/logo.png',
+                        height: 40, width: 40),
+                    const SizedBox(width: 10),
+                    MyCustomTextWidget(index: 3, text: 'Signlingo'),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                Center(
+                    child:
+                        MyCustomTextWidget(text: 'Welcome back !', index: 1)),
+                const SizedBox(height: 100),
+                MyCustomTextWidget(text: 'Login :', index: 1),
+                const SizedBox(height: 20),
+                DefaultTextField(
+                  hintText: 'Email',
+                  prefixIcon: const Icon(
+                    Icons.email_outlined,
+                    color: broiColor,
+                  ),
+                  type: TextInputType.emailAddress,
+                  controller: loginController.mailController,
+                  validatorFn: validateEmail,
+                ),
+                const SizedBox(height: 8),
+                GetBuilder<LoginController>(
+                  init: LoginController(),
+                  builder: (loginController) => DefaultTextField(
+                    hintText: 'Password',
+                    prefixIcon: const Icon(Icons.lock, color: broiColor),
+                    controller: loginController.passwordController,
+                    type: TextInputType.visiblePassword,
+                    validatorFn: validatePassword,
+                    obscuretext: loginController.obscurePassword,
+                    suffix: loginController.obscurePassword
+                        ? Icons.visibility_off_outlined
+                        : Icons.visibility_outlined,
+                    suffixFunction: () {
+                      loginController.togglePasswordVisibility();
+                    },
+                  ),
+                ),
+                const SizedBox(height: 80),
                 CustomButton(
-                  onPressed: () => loginController.toggleContainer1(),
-                  buttonwidth: 150.0,
-                  text: 'Signs',
+                  buttomHight: 40.0,
+                  onPressed: () async {
+                    await loginController.login();
+                  },
+                  text: 'LogIn',
                   primary: beigeColor,
                   onPrimary: Colors.white,
                   sideColor: beigeColor,
-                  icon: Icons.sign_language,
                 ),
-                const SizedBox(width: 20),
-                CustomButton(
-                  onPressed: () => loginController.toggleContainer2(),
-                  buttonwidth: 150.0,
-                  text: 'Letters',
-                  primary: broiColor,
-                  onPrimary: Colors.white,
-                  sideColor: broiColor,
-                  icon: Icons.sort_by_alpha,
+                const SizedBox(height: 20),
+                GestureDetector(
+                  onTap: () {
+                    // Handle navigation to the signup screen or other actions
+                    Get.to(
+                        () => SignupScreen()); // Example navigation using GetX
+                  },
+                  child: Text(
+                    'Dont have account? Sign up ',
+                    style: TextStyle(
+                      color: Colors.blue,
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
                 ),
               ],
             ),
-            SizedBox(height: screenHeight * 0.08),
-            Expanded(
-              child: Obx(
-                () => Stack(
-                  children: [
-                    // Container 2
-                    if (loginController.showContainer2.isTrue)
-                      SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            MyCustomTextWidget(index: 1, text: 'Letters'),
-                            const SizedBox(height: 10),
-                            DefaultTextField(
-                              hintText: 'Email',
-                              prefixIcon: const Icon(
-                                Icons.email_outlined,
-                                color: broiColor,
-                              ),
-                              type: TextInputType.emailAddress,
-                              controller: loginController.mailController,
-                            ),
-                            const SizedBox(height: 8),
-                            GetBuilder<LoginController>(
-                              init: LoginController(),
-                              builder: (loginController) => DefaultTextField(
-                                hintText: 'Password',
-                                prefixIcon:
-                                    const Icon(Icons.lock, color: broiColor),
-                                controller: loginController.passwordController,
-                                type: TextInputType.visiblePassword,
-                                validatorFn: validatePassword,
-                                obscuretext: loginController.obscurePassword,
-                                suffix: loginController.obscurePassword
-                                    ? Icons.visibility_off_outlined
-                                    : Icons.visibility_outlined,
-                                suffixFunction: () {
-                                  loginController.togglePasswordVisibility();
-                                },
-                              ),
-                            ),
-                            const SizedBox(height: 10),
-                            GestureDetector(
-                              onTap: () {
-                                Get.find<LoginController>().resetPassword();
-                              },
-                              child: Center(
-                                child: MyCustomTextWidget(
-                                  text: 'Forget Password?',
-                                  index: 14,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 150),
-                            CustomButton(
-                              onPressed: () async {
-                                await loginController.login();
-                              },
-                              text: 'Login',
-                              primary: beigeColor,
-                              onPrimary: Colors.white,
-                              sideColor: beigeColor,
-                            ),
-                            const SizedBox(height: 10),
-                            GestureDetector(
-                              onTap: () {
-                                // Handle navigation to the signup screen or other actions
-                                Get.to(() =>
-                                    SignupScreen()); // Example navigation using GetX
-                              },
-                              child: MyCustomTextWidget(
-                                  index: 14,
-                                  text:
-                                      'Already have an account? Sign up here'),
-                            ),
-                          ],
-                        ),
-                      ),
-                    // Container 1
-                    if (loginController.showContainer1.isTrue)
-
-                       Column(
-                          children: [
-                            MyCustomTextWidget(index: 1, text: 'Signs'),
-                            const SizedBox(height: 10),
-                            DefaultTextField(
-                              hintText: 'Email',
-                              prefixIcon: const Icon(
-                                Icons.email_outlined,
-                                color: broiColor,
-                              ),
-                              type: TextInputType.none,
-                              controller: loginController.mailController,
-                            ),
-                            const SizedBox(height: 8),
-                            GetBuilder<LoginController>(
-                              init: LoginController(),
-                              builder: (loginController) => DefaultTextField(
-                                hintText: 'Password',
-                                prefixIcon:
-                                    const Icon(Icons.lock, color: broiColor),
-                                controller: loginController.passwordController,
-                                type: TextInputType.none,
-                                validatorFn: validatePassword,
-                                obscuretext: loginController.obscurePassword,
-                                suffix: loginController.obscurePassword
-                                    ? Icons.visibility_off_outlined
-                                    : Icons.visibility_outlined,
-                                suffixFunction: () {
-                                  loginController.togglePasswordVisibility();
-                                },
-                              ),
-                            ),
-                            GridView.builder(
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 6,
-                              ),
-                              itemCount: 26,
-                              itemBuilder: (BuildContext context, int index) {
-                                String letter = String.fromCharCode(
-                                    97 + index); // a-z or A-Z
-                                String imagePath =
-                                    'assets/images/alphabet/$letter.png';
-
-                                return GestureDetector(
-                                    onTap: () {
-                                      selectedLetters.add(letter);
-                                    },
-                                    child: Image.asset(
-                                      imagePath,
-                                      width: 50,
-                                      height: 50,
-                                    ));
-                              },
-                            ),
-                            const SizedBox(height: 10),
-                            GestureDetector(
-                              onTap: () {
-                                Get.find<LoginController>().resetPassword();
-                              },
-                              child: Center(
-                                child: MyCustomTextWidget(
-                                  text: 'Forget Password?',
-                                  index: 14,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 150),
-                            CustomButton(
-                              onPressed: () async {
-                                await loginController.login();
-                              },
-                              text: 'Login',
-                              primary: beigeColor,
-                              onPrimary: Colors.white,
-                              sideColor: beigeColor,
-                            ),
-                            const SizedBox(height: 10),
-                            GestureDetector(
-                              onTap: () {
-                                // Handle navigation to the signup screen or other actions
-                                Get.to(() =>
-                                    SignupScreen()); // Example navigation using GetX
-                              },
-                              child: MyCustomTextWidget(
-                                  index: 14,
-                                  text:
-                                      'Already have an account? Sign up here'),
-                            ),
-                          ],
-                        ),
-
-                  ],
-                ),
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );
   }
 }
+
+// ... (other classes and code below) ...

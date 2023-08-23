@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sign_app/view/screens/login_screen.dart';
-import 'package:video_player/video_player.dart';
+
 import '../../presenter/controller/signup_controller.dart';
 import '../widgets/color.dart';
 import '../widgets/my_custom_button.dart';
 import '../widgets/my_custom_text.dart';
 import '../widgets/my_custom_textfield.dart';
+
 class SignupScreen extends StatelessWidget {
   final SignupController signupController = Get.put(SignupController());
 
@@ -27,18 +28,19 @@ class SignupScreen extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Image.asset('assets/images/logo.png', height: 40, width: 40),
+                      Image.asset('assets/images/logo.png',
+                          height: 40, width: 40),
                       const SizedBox(width: 10),
-                      MyCustomTextWidget(index: 3, text: 'SignaLingua'),
+                      MyCustomTextWidget(index: 3, text: 'Signlingo'),
                     ],
                   ),
                   const SizedBox(height: 20),
-                  Center(child: MyCustomTextWidget(text: 'Create an account !', index: 1)),
+                  Center(
+                      child: MyCustomTextWidget(
+                          text: 'Create an account !', index: 1)),
                   const SizedBox(height: 100),
-
                   MyCustomTextWidget(text: 'Signup :', index: 1),
                   const SizedBox(height: 20),
-
                   DefaultTextField(
                     hintText: 'Full Name',
                     prefixIcon: const Icon(
@@ -49,7 +51,6 @@ class SignupScreen extends StatelessWidget {
                     controller: signupController.nameController,
                   ),
                   const SizedBox(height: 8),
-
                   DefaultTextField(
                     hintText: 'Email',
                     prefixIcon: const Icon(
@@ -61,7 +62,6 @@ class SignupScreen extends StatelessWidget {
                     validatorFn: validateEmail,
                   ),
                   const SizedBox(height: 8),
-
                   GetBuilder<SignupController>(
                     init: SignupController(),
                     builder: (signupController) => DefaultTextField(
@@ -79,7 +79,6 @@ class SignupScreen extends StatelessWidget {
                       },
                     ),
                   ),
-
                   const SizedBox(height: 80),
                   CustomButton(
                     buttomHight: 40.0,
@@ -95,7 +94,8 @@ class SignupScreen extends StatelessWidget {
                   GestureDetector(
                     onTap: () {
                       // Handle navigation to the signup screen or other actions
-                      Get.to(() => LoginScreen()); // Example navigation using GetX
+                      Get.to(
+                          () => LoginScreen()); // Example navigation using GetX
                     },
                     child: Text(
                       'Already have an account? Sign up here',
@@ -105,7 +105,6 @@ class SignupScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-
                 ],
               ),
             ),
