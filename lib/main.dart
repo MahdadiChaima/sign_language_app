@@ -2,7 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sign_app/presenter/cache_helper.dart';
-import 'package:sign_app/view/screens/camera_screen.dart';
+import 'package:sign_app/view/screens/splash_screen.dart';
 import 'package:sign_app/view/widgets/constant.dart';
 
 void main() async {
@@ -13,7 +13,7 @@ void main() async {
   runApp(GetMaterialApp(
     title: 'Signlingo',
     debugShowCheckedModeBanner: false,
-    home: CameraPage(),
+    home: SplashScreen(),
   ));
 }
 // class MyApp extends StatelessWidget {

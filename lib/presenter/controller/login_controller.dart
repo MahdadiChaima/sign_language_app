@@ -2,7 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:get/get.dart';
-import 'package:sign_app/view/screens/home_screen.dart';
+import 'package:sign_app/view/screens/alphabet_screen.dart';
+import '../../view/screens/home_screen.dart';
 import '../../view/screens/started_screen.dart';
 import '../../view/widgets/custom_snackbar.dart';
 import '../../view/widgets/my_custom_text.dart';
@@ -83,36 +84,20 @@ class LoginController extends GetxController {
       Get.snackbar('Error', 'Please enter your email!');
     }
   }
-  void toggleContainer1() {
-    // Toggle the visibility of Container 1
-    showContainer1.toggle();
-    // Ensure Container 2 is hidden when Container 1 is shown
-    if (showContainer1.isTrue) {
-      showContainer2.value = false;
-    }
-  }
-  void toggleContainer2() {
-    // Toggle the visibility of Container 2
-    showContainer2.toggle();
-    // Ensure Container 1 is hidden when Container 2 is shown
-    if (showContainer2.isTrue) {
-      showContainer1.value = false;
-    }
-  }
   void showLogoutConfirmationDialog(BuildContext context) {
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: MyCustomTextWidget(index:4 ,text:'Logout',),
-          content: MyCustomTextWidget(index:6 ,text:'Are you sure you want to logout ?',),
+          title: MyCustomTextWidget(index:1 ,text:'Logout',),
+          content: MyCustomTextWidget(index:1 ,text:'Are you sure you want to logout ?',),
           actions: [
             TextButton(
               onPressed: () {
                 // Close the dialog
                 Navigator.of(context).pop();
               },
-              child:MyCustomTextWidget(index:4 ,text:'Cancel',),
+              child:MyCustomTextWidget(index:2,text:'Cancel',),
 
             ),
             TextButton(
@@ -121,27 +106,13 @@ class LoginController extends GetxController {
                 Get.lazyPut(() => LoginController()); // Initialize the controller
                 Get.find<LoginController>().logout();
               },
-              child:MyCustomTextWidget(index:4 ,text:'Logout',),
+              child:MyCustomTextWidget(index:2 ,text:'Logout',),
             ),
           ],
         );
       },
     );
   }
-  void toggleGridVisibility() {
-    isGridVisible.value = !isGridVisible.value;
-  }
-  void speakSelectedWord() async {
-    String selectedWord = selectedLetters.join('');
-    if (selectedWord.isNotEmpty) {
-      await flutterTts.setLanguage('en-US'); // Set the desired language
-      await flutterTts.setPitch(1.0); // Set pitch (1.0 is default)
-      await flutterTts.speak(selectedWord);
-    }
-  }
-  void deleteLastCharacter() {
-    if (selectedLetters.isNotEmpty) {
-        selectedLetters.removeLast();
-    }
-  }
+
+
 }

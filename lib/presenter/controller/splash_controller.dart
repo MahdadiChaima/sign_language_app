@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../view/screens/alphabet_screen.dart';
 import '../../view/screens/home_screen.dart';
 import '../../view/screens/onbording_screen.dart';
 import '../../view/widgets/constant.dart';
