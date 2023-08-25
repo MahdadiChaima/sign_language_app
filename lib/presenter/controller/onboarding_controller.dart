@@ -8,7 +8,7 @@ class OnboardingController extends GetxController {
   final PageController pageController = PageController();
   final List<OnboardingItem> onboardingItems = [
     OnboardingItem(
-      title: 'Welcome to SignaLingua',
+      title: 'Welcome to SignLinguo',
       description: 'Bridge the gap between text and visual language.',
       image: 'assets/images/onbording1.png',
     ),

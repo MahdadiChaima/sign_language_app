@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../../presenter/controller/onboarding_controller.dart';
 import '../widgets/color.dart';
 import '../widgets/curve_container.dart';

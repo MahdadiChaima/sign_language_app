@@ -46,7 +46,7 @@ class StartedScreen extends StatelessWidget {
               ),
               MyCustomTextWidget(
                 index: 2,
-                text: 'Welcome to SignaLingua,',
+                text: 'Welcome to SignLinguo,',
               ),
               const SizedBox(
                 height: 15,
